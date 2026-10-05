@@ -147,3 +147,187 @@ int main()
         }
     }
 }
+
+
+
+
+
+
+
+
+#include <stdio.h>
+
+// MAX defines the maximum size of the Circular Queue
+#define MAX 5
+
+// Array used to implement the Circular Queue
+int queue[MAX];
+
+// FRONT points to the first element
+// REAR points to the last element
+// -1 means the queue is empty
+int front = -1;
+int rear = -1;
+
+
+// ENQUEUE OPERATION
+// Enqueue is used to insert an element into the queue.
+// Circular Queue follows FIFO: First In, First Out.
+void enqueue(int x)
+{
+    // Check whether the Circular Queue is full.
+    // % MAX allows REAR to move back to index 0.
+    if ((rear + 1) % MAX == front)
+    {
+        printf("Circular Queue is Full!\n");
+        return;
+    }
+
+    // If the queue is empty, set both FRONT and REAR to 0.
+    if (front == -1)
+    {
+        front = 0;
+        rear = 0;
+    }
+    else
+    {
+        // Move REAR to the next circular position.
+        rear = (rear + 1) % MAX;
+    }
+
+    // Insert the new element at REAR.
+    queue[rear] = x;
+
+    printf("%d inserted into queue.\n", x);
+}
+
+
+// DEQUEUE OPERATION
+// Dequeue is used to remove an element from the FRONT.
+void dequeue()
+{
+    // If FRONT is -1, the queue is empty.
+    // Removing from an empty queue is called Underflow.
+    if (front == -1)
+    {
+        printf("Circular Queue is Empty!\n");
+        return;
+    }
+
+    // Display the element before deleting it.
+    printf("%d deleted from queue.\n", queue[front]);
+
+    // If FRONT and REAR are equal,
+    // there is only one element in the queue.
+    if (front == rear)
+    {
+        // Reset both to -1 because the queue becomes empty.
+        front = -1;
+        rear = -1;
+    }
+    else
+    {
+        // Move FRONT to the next circular position.
+        front = (front + 1) % MAX;
+    }
+}
+
+
+// FRONT OPERATION
+// This operation displays the first element
+// without removing it.
+void frontElement()
+{
+    // Check whether the queue is empty.
+    if (front == -1)
+    {
+        printf("Queue is Empty!\n");
+        return;
+    }
+
+    // Display the element present at FRONT.
+    printf("Front element = %d\n", queue[front]);
+}
+
+
+// DISPLAY OPERATION
+// This operation displays all elements
+// from FRONT to REAR.
+void display()
+{
+    // Check whether the queue is empty.
+    if (front == -1)
+    {
+        printf("Queue is Empty!\n");
+        return;
+    }
+
+    printf("Queue elements are: ");
+
+    // Start displaying from FRONT.
+    int i = front;
+
+    while (1)
+    {
+        // Print current element.
+        printf("%d ", queue[i]);
+
+        // Stop when REAR is reached.
+        if (i == rear)
+            break;
+
+        // Move to the next circular position.
+        i = (i + 1) % MAX;
+    }
+
+    printf("\n");
+}
+
+
+// MAIN FUNCTION
+// Program execution starts from main().
+int main()
+{
+    int choice, x;
+
+    // Menu continues until the user selects EXIT.
+    while (1)
+    {
+        printf("\n--- CIRCULAR QUEUE MENU ---\n");
+        printf("1. ENQUEUE\n");
+        printf("2. DEQUEUE\n");
+        printf("3. FRONT\n");
+        printf("4. DISPLAY\n");
+        printf("5. EXIT\n");
+
+        // Take the user's choice.
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        // Perform operation according to user's choice.
+        switch (choice)
+        {
+            case 1:
+                // Take an element and insert it.
+                printf("Enter element: ");
+                scanf("%d", &x);
+                enqueue(x);
+                break;
+
+            case 2:
+                // Remove the front element.
+                dequeue();
+                break;
+
+            case 3:
+                // Display the front element.
+                frontElement();
+                break;
+
+            case 4:
+                // Display all queue elements.
+                display();
+                break;
+
+            case 5:
+                // Exit the
